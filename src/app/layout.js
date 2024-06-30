@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     <html data-theme="mytheme" lang="en">
       <body suppressHydrationWarning={true} className={inter.className}>
         <Nav />
-        <main className="min-h-[calc(100vh-284px)] px-2 container mx-auto">
+        <main className="min-h-[calc(100vh-276px)] my-5 px-2 container mx-auto">
           {children}
         </main>
         <Footer />

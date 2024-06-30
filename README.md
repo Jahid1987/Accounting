@@ -1,9 +1,10 @@
-# Next starter project
+# Next.js starter project
 
 ## technologies used
 
 - next.js
 - mongodb
-- tailwind + daisyUI
+- tailwind
+- daisyUI
 - next auth
 - react hook form

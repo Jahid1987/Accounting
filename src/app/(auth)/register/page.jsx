@@ -13,21 +13,46 @@ const page = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
   // handling sign in with react hook form
   async function handleRegister(data) {
+    // checking if the email already exist?
+    const user = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}//api/users/${data.email}`
+    );
+    const emailExist = await user.json();
+    if (emailExist) return toast.warning(`${data.email} already exist.`);
+
     // uploading image to imagebb
     const { success, displayUrl: image } = await uploadImage(data.image[0]);
     if (!success) return toast.error("Uploading Image faild!");
 
+    // creating new user
     const newUser = {
       name: data.name,
       image,
       email: data.email,
       password: data.password,
+      role: "user",
     };
-    console.log(newUser);
+    // saving in database
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+    const result = await res.json();
+    if (result.insertedId) {
+      toast.success("User Created Successfully!");
+      reset();
+    } else {
+      toast.error("OOPS! Something wrong.");
+      reset();
+    }
   }
   return (
     <div className="card bg-base-100 w-10/12 md:w-1/2 mx-auto shrink-0 shadow-2xl text-xs md:text-sm">

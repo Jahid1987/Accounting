@@ -1,13 +1,12 @@
 "use client";
-import Image from "next/image";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CiSearch } from "react-icons/ci";
-import { IoBagOutline } from "react-icons/io5";
-// import logo from "/assets/logo.svg";
 
 const Nav = () => {
   const pathName = usePathname();
+  const session = useSession();
+  // console.log(session);
   const navLinks = [
     {
       title: "Home",

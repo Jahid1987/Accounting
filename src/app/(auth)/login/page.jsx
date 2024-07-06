@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import SocialLogin from "../social/SocialLogin";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const page = () => {
   const [isPassword, setIsPassword] = useState(true);
@@ -15,7 +16,12 @@ const page = () => {
 
   // handling sign in with react hook form
   async function handleSignIn(data) {
-    console.log(data);
+    const res = signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+    console.log(await res, "printing in login page");
   }
   return (
     <div className="card bg-base-100 w-10/12 md:w-1/2 mx-auto shrink-0 shadow-2xl text-xs md:text-sm">

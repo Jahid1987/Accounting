@@ -1,6 +1,4 @@
-import React from "react";
-
-const page = () => {
+const page = async () => {
   return (
     <div>
       <h3>this is services</h3>

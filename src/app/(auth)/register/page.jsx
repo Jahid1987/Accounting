@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import SocialLogin from "../social/SocialLogin";
 import Link from "next/link";
+import uploadImage from "@/lib/uploadImage";
+import { toast } from "react-toastify";
 
 const page = () => {
   const [isPassword, setIsPassword] = useState(true);
@@ -15,10 +17,20 @@ const page = () => {
 
   // handling sign in with react hook form
   async function handleRegister(data) {
-    console.log(data);
+    // uploading image to imagebb
+    const { success, displayUrl: image } = await uploadImage(data.image[0]);
+    if (!success) return toast.error("Uploading Image faild!");
+
+    const newUser = {
+      name: data.name,
+      image,
+      email: data.email,
+      password: data.password,
+    };
+    console.log(newUser);
   }
   return (
-    <div className="card bg-base-100 w-full md:w-1/2 mx-auto shrink-0 shadow-2xl text-xs md:text-sm">
+    <div className="card bg-base-100 w-10/12 md:w-1/2 mx-auto shrink-0 shadow-2xl text-xs md:text-sm">
       <h3 className="text-center mt-5 text-lg md:text-xl lg:text-2xl font-light">
         User Register
       </h3>
@@ -97,7 +109,9 @@ const page = () => {
           </label>
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-sm rounded-sm btn-primary">Login</button>
+          <button className="btn btn-sm rounded-sm btn-primary">
+            Register
+          </button>
         </div>
       </form>
       <div>

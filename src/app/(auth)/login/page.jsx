@@ -18,7 +18,7 @@ const page = () => {
     console.log(data);
   }
   return (
-    <div className="card bg-base-100 w-full md:w-1/2 mx-auto shrink-0 shadow-2xl text-xs md:text-sm">
+    <div className="card bg-base-100 w-10/12 md:w-1/2 mx-auto shrink-0 shadow-2xl text-xs md:text-sm">
       <h3 className="text-center mt-5 text-lg md:text-xl lg:text-2xl font-light">
         User Login
       </h3>

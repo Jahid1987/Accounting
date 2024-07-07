@@ -16,7 +16,7 @@
 - setup .env
   NEXTAUTH_SECRET=1gjp4edI4fiO0GH57n4PNBw4qzkkCukEGlkYO56QdoM
 
-* public api keys these will be used in 'client side' directive specially
+public api keys these will be used in 'client side' directive specially
 
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 NEXT_PUBLIC_BASE_URL=https://next-starter-eosin-ten.vercel.app(if project is deployed)

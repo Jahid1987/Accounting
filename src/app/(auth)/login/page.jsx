@@ -5,9 +5,12 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import SocialLogin from "../social/SocialLogin";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const page = () => {
   const [isPassword, setIsPassword] = useState(true);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -16,11 +19,17 @@ const page = () => {
 
   // handling sign in with react hook form
   async function handleSignIn(data) {
-    const res = signIn("credentials", {
+    const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
       redirect: false,
     });
+    if (res.status === 401) {
+      return toast.error("Your credentials not correct!");
+    }
+    if (res.status === 200) {
+      router.push("/");
+    }
     console.log(await res, "printing in login page");
   }
   return (

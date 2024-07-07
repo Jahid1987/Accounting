@@ -24,14 +24,18 @@ export const authOptions = {
         if (!email || !password) {
           return null;
         }
-        // const savedUser = users.find((user) => user.email === email);
+
         const savedUser = await getUserByEmail(email);
 
         if (!savedUser) {
           return null;
         }
-        const isMatch = await bcrypt.compare(password, savedUser.password);
-        if (!isMatch) {
+
+        const passwordMatched = await bcrypt.compare(
+          password,
+          savedUser.password
+        );
+        if (!passwordMatched) {
           return null;
         }
         return savedUser;
@@ -56,13 +60,11 @@ export const authOptions = {
         token.role = user.role;
         token.image = user.image;
       }
-      // console.log(token);
       return token;
     },
     async session({ session, token }) {
       session.user.role = token.role;
       session.user.image = token.image;
-      // console.log(session);
       return session;
     },
   },

@@ -1,34 +1,14 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { MdLogout } from "react-icons/md";
 
 const Nav = () => {
   const pathName = usePathname();
   const session = useSession();
   // console.log(session);
-  const navLinks = [
-    {
-      title: "Home",
-      path: "/",
-    },
-    {
-      title: "Services",
-      path: "/services",
-    },
-    {
-      title: "Blogs",
-      path: "/blogs",
-    },
-    {
-      title: "Contact",
-      path: "/contact",
-    },
-    {
-      title: "About",
-      path: "/about",
-    },
-  ];
+
   return (
     <div className="bg-base-200">
       <nav className="navbar container mx-auto">
@@ -95,20 +75,67 @@ const Nav = () => {
           </div>
         </div>
         <div className="navbar-end space-x-2 lg:space-x-4">
-          <div className="space-x-3">
-            <Link
-              href="/register"
-              className="btn btn-xs md:btn-sm btn-outline rounded-sm btn-secondary"
-            >
-              Register
-            </Link>
-            <Link
-              href="/login"
-              className="btn btn-xs md:btn-sm btn-outline rounded-sm btn-primary"
-            >
-              Login
-            </Link>
-          </div>
+          {session.status !== "loading" ? (
+            <>
+              {session.status === "authenticated" ? (
+                <div className="dropdown dropdown-end">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="btn btn-ghost btn-circle avatar"
+                  >
+                    <div className="w-10 rounded-full">
+                      <img
+                        alt="Tailwind CSS Navbar component"
+                        src={session?.data?.user?.image}
+                      />
+                    </div>
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 space-y-3 w-52 p-2 shadow"
+                  >
+                    <li>
+                      <a className="justify-between">
+                        {session?.data?.user?.name}
+                        <span className="badge badge-secondary">
+                          {session?.data?.user?.role}
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <Link href="/about">About</Link>
+                    </li>
+                    <li>
+                      <a
+                        onClick={() => signOut()}
+                        className="flex justify-between text-primary"
+                      >
+                        Logout <MdLogout />{" "}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <div className="space-x-3">
+                  <Link
+                    href="/register"
+                    className="btn btn-xs md:btn-sm btn-outline rounded-sm btn-secondary"
+                  >
+                    Register
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="btn btn-xs md:btn-sm btn-outline rounded-sm btn-primary"
+                  >
+                    Login
+                  </Link>
+                </div>
+              )}
+            </>
+          ) : (
+            <p>loading...</p>
+          )}
         </div>
       </nav>
     </div>
@@ -116,3 +143,26 @@ const Nav = () => {
 };
 
 export default Nav;
+
+const navLinks = [
+  {
+    title: "Home",
+    path: "/",
+  },
+  {
+    title: "Services",
+    path: "/services",
+  },
+  {
+    title: "Blogs",
+    path: "/blogs",
+  },
+  {
+    title: "Contact",
+    path: "/contact",
+  },
+  {
+    title: "About",
+    path: "/about",
+  },
+];

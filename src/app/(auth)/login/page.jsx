@@ -30,7 +30,7 @@ const page = () => {
     if (res.status === 200) {
       router.push("/");
     }
-    console.log(await res, "printing in login page");
+    // console.log(await res, "printing in login page");
   }
   return (
     <div className="card bg-base-100 w-10/12 md:w-1/2 mx-auto shrink-0 shadow-2xl text-xs md:text-sm">

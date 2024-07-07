@@ -1,8 +1,9 @@
-import { getUserByEmail } from "@/controllers/userControllers";
+import { createUser, getUserByEmail } from "@/controllers/userControllers";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import bcrypt from "bcrypt";
+import { connectToDatabase } from "./connectDB";
 
 export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -66,6 +67,31 @@ export const authOptions = {
       session.user.role = token.role;
       session.user.image = token.image;
       return session;
+    },
+    async signIn({ user, account }) {
+      if (account.provider === "google") {
+        try {
+          const savedUser = await getUserByEmail(user.email);
+
+          if (!savedUser) {
+            const newUser = {
+              name: user.name,
+              image: user.image,
+              email: user.email,
+              role: "user",
+            };
+            const { db } = await connectToDatabase();
+            await db.collection("users").insertOne(newUser);
+            return user;
+          } else {
+            return user;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        return user;
+      }
     },
   },
 };

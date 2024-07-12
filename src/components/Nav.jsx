@@ -54,7 +54,7 @@ const Nav = () => {
             className="font-medium text-sm md:text-base md:font-semibold"
             href="/"
           >
-            Company logo/Name
+            Accounting HUB
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">

@@ -84,7 +84,7 @@ const Nav = () => {
                     role="button"
                     className="btn btn-ghost btn-circle avatar"
                   >
-                    <div className="w-10 rounded-full">
+                    <div className="w-9 rounded-full">
                       <img
                         alt="Tailwind CSS Navbar component"
                         src={session?.data?.user?.image}
@@ -104,7 +104,22 @@ const Nav = () => {
                       </a>
                     </li>
                     <li>
-                      <Link href="/about">About</Link>
+                      <Link href="/profile">Profile</Link>
+                    </li>
+                    <li>
+                      <Link href="/assignment">Assignment</Link>
+                    </li>
+                    <li>
+                      <Link href="/exams">Exams</Link>
+                    </li>
+                    <li
+                      className={` ${
+                        session?.data?.user?.role === "user"
+                          ? "block"
+                          : "hidden"
+                      }`}
+                    >
+                      <Link href="/studentdash">Dashboard</Link>
                     </li>
                     <li>
                       <a
